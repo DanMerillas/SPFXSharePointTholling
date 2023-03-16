@@ -4,8 +4,10 @@ Ejemplos explicativos del limite de 5000 elementos en SharePoint y las opciones 
 
 Prerequisos:
 
--Pnp Powershell
--SPfx 14.
+- Pnp Powershell
+- SPfx 1.16.0
+- SPfx fast serve
+- PnP JS 3.10.0
 
 Uso:
 
