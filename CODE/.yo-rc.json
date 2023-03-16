@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.18.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.0",
+    "libraryName": "spfx-share-point-throttling",
+    "libraryId": "e0964fb5-d64e-43fc-9129-2303bb262b05",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "SPFXSharePointThrottling",
+    "solutionShortDescription": "SPFXSharePointThrottling description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

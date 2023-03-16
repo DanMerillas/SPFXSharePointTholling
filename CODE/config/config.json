@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "throttling-test-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/throttlingTest/ThrottlingTestWebPart.js",
+          "manifest": "./src/webparts/throttlingTest/ThrottlingTestWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ThrottlingTestWebPartStrings": "lib/webparts/throttlingTest/loc/{locale}.js"
+  }
+}

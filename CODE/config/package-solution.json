@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-share-point-throttling-client-side-solution",
+    "id": "e0964fb5-d64e-43fc-9129-2303bb262b05",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "SPFXSharePointThrottling description"
+      },
+      "longDescription": {
+        "default": "SPFXSharePointThrottling description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "spfx-share-point-throttling Feature",
+        "description": "The feature that activates elements of the spfx-share-point-throttling solution.",
+        "id": "f9b37932-ffca-4ed9-8563-78786172c3fe",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-share-point-throttling.sppkg"
+  }
+}
