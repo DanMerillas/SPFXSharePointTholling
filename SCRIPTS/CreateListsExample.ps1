@@ -4,8 +4,6 @@ $ListNameNormal = "NormalList"
 $ListNameLarge = "LargeList"
 $ListNameVeryLarge = "VeryLargeList"
 
-$Template = "GenericList"
- 
 
  
 Try {
@@ -43,7 +41,7 @@ Try {
 
     
     #Add List Items Large list
-    For ($i = 1; $i -le 2500; $i++) {
+    For ($i = 1; $i -le 2501; $i++) {
         Add-PnPListItem -List $ListNameLarge -Values @{"Title" = "Value1" } -Batch $Batch
     }
 

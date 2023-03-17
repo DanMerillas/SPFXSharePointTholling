@@ -9,10 +9,28 @@
           "manifest": "./src/webparts/throttlingTest/ThrottlingTestWebPart.manifest.json"
         }
       ]
+    },
+    "throttling-test-large-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/throttlingTestLarge/ThrottlingTestLargeWebPart.js",
+          "manifest": "./src/webparts/throttlingTestLarge/ThrottlingTestLargeWebPart.manifest.json"
+        }
+      ]
+    },
+    "throttling-test-very-large-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/throttlingTestVeryLarge/ThrottlingTestVeryLargeWebPart.js",
+          "manifest": "./src/webparts/throttlingTestVeryLarge/ThrottlingTestVeryLargeWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "ThrottlingTestWebPartStrings": "lib/webparts/throttlingTest/loc/{locale}.js"
+    "ThrottlingTestWebPartStrings": "lib/webparts/throttlingTest/loc/{locale}.js",
+    "ThrottlingTestLargeWebPartStrings": "lib/webparts/throttlingTestLarge/loc/{locale}.js",
+    "ThrottlingTestVeryLargeWebPartStrings": "lib/webparts/throttlingTestVeryLarge/loc/{locale}.js"
   }
 }

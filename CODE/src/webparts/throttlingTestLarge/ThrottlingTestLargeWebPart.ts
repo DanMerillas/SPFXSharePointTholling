@@ -2,22 +2,22 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import ThrottlingTest from './components/ThrottlingTest';
-import { IThrottlingTestProps } from './components/IThrottlingTestProps';
+import ThrottlingTestLarge from './components/ThrottlingTestLarge';
+import { IThrottlingTestLargeProps } from './components/IThrottlingTestLargeProps';
 
 import { getSP } from '../../pnpConfig/pnpConfig';
 
-export interface IThrottlingTestWebPartProps {
+export interface IThrottlingTestLargeWebPartProps {
   description: string;
 }
 
-export default class ThrottlingTestWebPart extends BaseClientSideWebPart<IThrottlingTestWebPartProps> {
+export default class ThrottlingTestLargeWebPart extends BaseClientSideWebPart<IThrottlingTestLargeWebPartProps> {
 
 
 
   public render(): void {
-    const element: React.ReactElement<IThrottlingTestProps> = React.createElement(
-      ThrottlingTest,
+    const element: React.ReactElement<IThrottlingTestLargeProps> = React.createElement(
+      ThrottlingTestLarge,
       {
       
       }
