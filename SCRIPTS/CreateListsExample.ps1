@@ -1,5 +1,5 @@
 #Config Variables
-$SiteURL = "https://Crescent.sharepoint.com"
+$SiteURL = Read-Host -Prompt 'Enter SharePoint URL'
 $ListNameNormal = "NormalList"
 $ListNameLarge = "LargeList"
 $ListNameVeryLarge = "VeryLargeList"
@@ -10,7 +10,7 @@ $Template = "GenericList"
  
 Try {
     #Connect to PnP Online
-    Connect-PnPOnline -Url $SiteURL -UseWebLogin
+    Connect-PnPOnline -Url $SiteURL -Interactive
  
     #sharepoint online create list pnp powershell
     New-PnPList -Title $ListNameNormal -Template $Template -ErrorAction Stop
