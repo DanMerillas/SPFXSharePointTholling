@@ -6,17 +6,19 @@
 import * as React from 'react';
 import styles from '../../throttlingTest/components/ThrottlingTest.module.scss';
 import { IThrottlingTestLargeProps } from './IThrottlingTestLargeProps';
-import { getSP } from '../../../pnpConfig/pnpConfig';
-import { spfi } from '@pnp/sp';
+
 import "@pnp/sp/lists";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items/get-all";
+import { ReadData, ReadDataFilter } from '../../../services/services';
 
 export interface ICustomListViewState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   listItems: any;
+  listItemsIndex: any;
   filterListItems:any
+  filterListItemsindex:any
 }
 
 export default class ThrottlingTestLarge extends React.Component<{}, ICustomListViewState> {
@@ -26,20 +28,17 @@ export default class ThrottlingTestLarge extends React.Component<{}, ICustomList
 
     this.state = {
       listItems: [],
+      listItemsIndex: [],
       filterListItems: [],
+      filterListItemsindex:[]
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  public readData() {
+  public readDataLarge() {
 
-    const that = this
-    const _sp = getSP();
-    const spCache = spfi(_sp).using();
-
-    spCache.web.lists.getByTitle('LargeList').items.select('Title').getAll()
-      .then((result: any) => {
-        that.setState({
+    
+    ReadData('LargeList').then((result: any) => {
+        this.setState({
           listItems: result
         });
       }).catch((reason)=>{
@@ -47,21 +46,41 @@ export default class ThrottlingTestLarge extends React.Component<{}, ICustomList
       })
   }
 
-  public readDataFilter() {
+  public readDataLargeWithColumnIndex() {
 
-    const that = this
-    const _sp = getSP();
-    const spCache = spfi(_sp).using();
+    
+    ReadData('LargeListWithColumnIndex').then((result: any) => {
+        this.setState({
+          listItemsIndex: result
+        });
+      }).catch((reason)=>{
+        alert(reason.message)
+      })
+  }
 
-    spCache.web.lists.getByTitle('LargeList').items.select('Title').filter("Title eq 'Value1'").getAll()
+  public readDataFilterLarge() {
+
+   ReadDataFilter('LargeList')
       .then((result: any) => {
-        that.setState({
+        this.setState({
           filterListItems: result
         });
       }).catch((reason)=>{
         alert(reason.message)
       })
   }
+
+  public readDataFilterLargeWithColumnIndex() {
+
+    ReadDataFilter('LargeListWithColumnIndex')
+       .then((result: any) => {
+         this.setState({
+           filterListItemsindex: result
+         });
+       }).catch((reason)=>{
+         alert(reason.message)
+       })
+   }
 
   public render(): React.ReactElement<IThrottlingTestLargeProps> {
 
@@ -70,23 +89,42 @@ export default class ThrottlingTestLarge extends React.Component<{}, ICustomList
       <section className={`${styles.throttlingTest}`}>
 
         <div>
-          <h4>Leyendo de un lista con 5001 elementos</h4>
+          <h4>Leyendo de un lista con 5001 elementos SIN indices</h4>
           <p>
-            Leemos de la lista "LargeList" que tiene 5001 elementos
+            Leemos de la lista "LargeList" que tiene 5001 elementos <strong>sin</strong> columnas indizadas
           </p>
           <p>
-            <button className={`${styles.buttonWP}`} onClick={this.readData.bind(this)}>Leer de la lista</button>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataLarge.bind(this)}>Leer de la lista</button>
           </p>
           <h5>Total elementos leidos: {this.state.listItems.length}</h5>
 
-          <h4>Filtrando una lista normal</h4>
+          <h4>Filtrando una lista grande</h4>
           <p>
             Leemos de la lista "LargeList" que tiene 5001 elementos pero recuperamos los que tiene el campo Title = Value1 (2501 elementos)
           </p>
           <p>
-            <button className={`${styles.buttonWP}`} onClick={this.readDataFilter.bind(this)}>Leer de la lista</button>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataFilterLarge.bind(this)}>Leer de la lista</button>
           </p>
           <h5>Total elementos leidos: {this.state.filterListItems.length}</h5>
+
+
+          <h4>Leyendo de un lista con 5001 elementos CON indices</h4>
+          <p>
+            Leemos de la lista "LargeListWithColumnIndex" que tiene 5001 elementos <strong>con</strong> columnas indizadas
+          </p>
+          <p>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataLargeWithColumnIndex.bind(this)}>Leer de la lista</button>
+          </p>
+          <h5>Total elementos leidos: {this.state.listItemsIndex.length}</h5>
+
+          <h4>Filtrando una lista grande</h4>
+          <p>
+            Leemos de la lista "LargeListWithColumnIndex" que tiene 5001 elementos pero recuperamos los que tiene el campo Title = Value1 (2501 elementos). La columna Title esta indizada y permite filtrar
+          </p>
+          <p>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataFilterLargeWithColumnIndex.bind(this)}>Leer de la lista</button>
+          </p>
+          <h5>Total elementos leidos: {this.state.filterListItemsindex.length}</h5>
 
         </div>
       </section>

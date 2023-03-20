@@ -6,17 +6,18 @@
 import * as React from 'react';
 import styles from '../../throttlingTest/components/ThrottlingTest.module.scss';
 import { IThrottlingTestVeryLargeProps } from './IThrottlingTestVeryLargeProps';
-import { getSP } from '../../../pnpConfig/pnpConfig';
-import { spfi } from '@pnp/sp';
 import "@pnp/sp/lists";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items/get-all";
+import { ReadData, ReadDataFilter, readDataRenderListDataAsStream } from '../../../services/services';
+
 
 export interface ICustomListViewState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   listItems: any;
-  filterListItems:any
+  filterListItems: any;
+  filterListItemsRenderListDataAsStream: any;
 }
 
 export default class ThrottlingTestVeryLarge extends React.Component<{}, ICustomListViewState> {
@@ -27,40 +28,61 @@ export default class ThrottlingTestVeryLarge extends React.Component<{}, ICustom
     this.state = {
       listItems: [],
       filterListItems: [],
+      filterListItemsRenderListDataAsStream: []
     };
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  public readData() {
+  public readDataVeryLarge() {
 
-    const that = this
-    const _sp = getSP();
-    const spCache = spfi(_sp).using();
+    ReadData('VeryLargeList').then((result: any) => {
+      this.setState({
+        listItems: result
+      });
+    }).catch((reason) => {
+      alert(reason.message)
+    })
+  }
 
-    spCache.web.lists.getByTitle('VeryLargeList').items.select('Title').getAll()
+  public readDataFilterVeryLarge() {
+
+    ReadDataFilter('VeryLargeList')
       .then((result: any) => {
-        that.setState({
-          listItems: result
+        this.setState({
+          filterListItems: result
         });
-      }).catch((reason)=>{
+      }).catch((reason) => {
         alert(reason.message)
       })
   }
 
-  public readDataFilter() {
+  public readDataFilterRenderListDataAsStream() {
 
-    const that = this
-    const _sp = getSP();
-    const spCache = spfi(_sp).using();
+    const ViewXml = `<View>
+                    <ViewFields>
+                      <FieldRef Name="Title"/>
+                    </ViewFields>
+                    <Query>
+                      <Where>
+                        <Eq>
+                          <FieldRef Name="Title"/><Value Type="Text">Value1</Value>
+                        </Eq>
+                      </Where>
+                      <OrderBy>
+                        <FieldRef Name="Title" Ascending="False" />
+                      </OrderBy>
+                    </Query>
+                    <RowLimit Paged="TRUE">4999</RowLimit> 
+                  </View>`
 
-    spCache.web.lists.getByTitle('VeryLargeList').items.select('Title').filter("Title eq 'Value1'").getAll()
-      .then((result: any) => {
-        that.setState({
-          filterListItems: result
-        });
-      }).catch((reason)=>{
-        alert(reason.message)
-      })
+    readDataRenderListDataAsStream('VeryLargeList', ViewXml).then((result: any) => {
+      this.setState({
+        filterListItemsRenderListDataAsStream: result
+      });
+    }).catch((reason) => {
+      alert(reason.message)
+    })
+
   }
 
   public render(): React.ReactElement<IThrottlingTestVeryLargeProps> {
@@ -75,18 +97,27 @@ export default class ThrottlingTestVeryLarge extends React.Component<{}, ICustom
             Leemos de la lista "VeryLargeList" que tiene 5001 elementos
           </p>
           <p>
-            <button className={`${styles.buttonWP}`} onClick={this.readData.bind(this)}>Leer de la lista</button>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataVeryLarge.bind(this)}>Leer de la lista</button>
           </p>
           <h5>Total elementos leidos: {this.state.listItems.length}</h5>
 
-          <h4>Filtrando una lista normal</h4>
+          <h4>Filtrando una lista muy grande</h4>
           <p>
-            Leemos de la lista "VeryLargeList" que tiene 10000 elementos pero recuperamos los que tiene el campo Title = Value1 (6000 elementos)
+            Leemos de la lista "VeryLargeList" que tiene 10000 elementos pero recuperamos los que tiene el campo Title = Value1 (6000 elementos). La columna Title esta indizada pero <strong>el filtro traer mas de 5000 elementos</strong>
           </p>
           <p>
-            <button className={`${styles.buttonWP}`} onClick={this.readDataFilter.bind(this)}>Leer de la lista</button>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataFilterVeryLarge.bind(this)}>Leer de la lista</button>
           </p>
           <h5>Total elementos leidos: {this.state.filterListItems.length}</h5>
+
+          <h4>Filtrando una lista muy grande con RenderListDataAsStream</h4>
+          <p>
+            Leemos de la lista "VeryLargeList" que tiene 10000 elementos pero recuperamos los que tiene el campo Title = Value1 (6000 elementos). La columna Title esta indizada pero <strong>el filtro traer mas de 5000 elementos</strong>
+          </p>
+          <p>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataFilterRenderListDataAsStream.bind(this)}>Leer de la lista</button>
+          </p>
+          <h5>Total elementos leidos: {this.state.filterListItemsRenderListDataAsStream.Row ? this.state.filterListItemsRenderListDataAsStream.Row.length : this.state.filterListItemsRenderListDataAsStream.length}</h5>
 
         </div>
       </section>

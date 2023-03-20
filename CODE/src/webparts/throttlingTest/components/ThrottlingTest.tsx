@@ -6,12 +6,11 @@
 import * as React from 'react';
 import styles from './ThrottlingTest.module.scss';
 import { IThrottlingTestProps } from './IThrottlingTestProps';
-import { getSP } from '../../../pnpConfig/pnpConfig';
-import { spfi } from '@pnp/sp';
 import "@pnp/sp/lists";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items/get-all";
+import { ReadData, ReadDataFilter } from '../../../services/services';
 
 export interface ICustomListViewState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,16 +29,11 @@ export default class ThrottlingTest extends React.Component<{}, ICustomListViewS
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  public readData() {
+  public readDataNormal() {
 
-    const that = this
-    const _sp = getSP();
-    const spCache = spfi(_sp).using();
-
-    spCache.web.lists.getByTitle('NormalList').items.select('Title').getAll()
-      .then((result: any) => {
-        that.setState({
+    
+    ReadData('NormalList').then((result: any) => {
+        this.setState({
           listItems: result
         });
       }).catch((reason)=>{
@@ -47,15 +41,11 @@ export default class ThrottlingTest extends React.Component<{}, ICustomListViewS
       })
   }
 
-  public readDataFilter() {
+  public readDataFilterNormal() {
 
-    const that = this
-    const _sp = getSP();
-    const spCache = spfi(_sp).using();
-
-    spCache.web.lists.getByTitle('NormalList').items.select('Title').filter("Title eq 'Value1'").getAll()
+   ReadDataFilter('NormalList')
       .then((result: any) => {
-        that.setState({
+        this.setState({
           filterListItems: result
         });
       }).catch((reason)=>{
@@ -75,7 +65,7 @@ export default class ThrottlingTest extends React.Component<{}, ICustomListViewS
             Leemos de la lista "NormalList" que tiene 70 elementos
           </p>
           <p>
-            <button className={`${styles.buttonWP}`} onClick={this.readData.bind(this)}>Leer de la lista</button>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataNormal.bind(this)}>Leer de la lista</button>
           </p>
           <h5>Total elementos leidos: {this.state.listItems.length}</h5>
 
@@ -84,7 +74,7 @@ export default class ThrottlingTest extends React.Component<{}, ICustomListViewS
             Leemos de la lista "NormalList" que tiene 70 elementos pero recuperamos los que tiene el campo Title = Value1 (50 elementos)
           </p>
           <p>
-            <button className={`${styles.buttonWP}`} onClick={this.readDataFilter.bind(this)}>Leer de la lista</button>
+            <button className={`${styles.buttonWP}`} onClick={this.readDataFilterNormal.bind(this)}>Leer de la lista</button>
           </p>
           <h5>Total elementos leidos: {this.state.filterListItems.length}</h5>
 
