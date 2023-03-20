@@ -82,7 +82,6 @@ export default class ThrottlingTestVeryLarge extends React.Component<{}, ICustom
     }).catch((reason) => {
       alert(reason.message)
     })
-
   }
 
   public render(): React.ReactElement<IThrottlingTestVeryLargeProps> {
